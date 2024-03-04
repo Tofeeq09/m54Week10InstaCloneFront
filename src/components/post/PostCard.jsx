@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
+import Modal from "react-modal";
 import {
   likePost,
   unlikePost,
@@ -11,6 +12,7 @@ import {
   unbookmarkPost,
   getPost,
 } from "../../services/postService";
+import PostDetail from "./PostDetail";
 import "./PostCard.scss";
 import { FcLike } from "react-icons/fc";
 import { BiRepost } from "react-icons/bi";
@@ -20,50 +22,49 @@ function PostCard({ post, onPostUpdate }) {
   const [isLiked, setIsLiked] = useState(post.likedBy.includes(/* current user's id */));
   const [isReposted, setIsReposted] = useState(post.repostedBy.includes(/* current user's id */));
   const [isBookmarked, setIsBookmarked] = useState(post.bookmarkedBy.includes(/* current user's id */));
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleLike = async () => {
-    if (isLiked) {
-      await unlikePost(post._id);
-    } else {
-      await likePost(post._id);
-    }
+    isLiked ? await unlikePost(post._id) : await likePost(post._id);
     const updatedPostData = await getPost(post._id);
     onPostUpdate(updatedPostData);
     setIsLiked(!isLiked);
   };
 
   const handleRepost = async () => {
-    if (isReposted) {
-      await unrepostPost(post._id);
-    } else {
-      await repostPost(post._id);
-    }
+    isReposted ? await unrepostPost(post._id) : await repostPost(post._id);
+
     const updatedPostData = await getPost(post._id);
     onPostUpdate(updatedPostData);
     setIsReposted(!isReposted);
   };
 
   const handleBookmark = async () => {
-    if (isBookmarked) {
-      await unbookmarkPost(post._id);
-    } else {
-      await bookmarkPost(post._id);
-    }
+    isBookmarked ? await unbookmarkPost(post._id) : await bookmarkPost(post._id);
+
     const updatedPostData = await getPost(post._id);
     onPostUpdate(updatedPostData);
     setIsBookmarked(!isBookmarked);
   };
 
+  const handlePostClick = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <div className="post-card">
-      <div className="post-header">
+      <div className="post-header" onClick={handlePostClick}>
         <img className="profile-photo" src={post.creator.profilePhoto} alt={post.creator.name} />
         <h2>
           {post.creator.name} (@{post.creator.handle})
         </h2>
       </div>
-      <img className="post-image" src={post.content.postImage} alt={post.content.caption} />
-      <p>{post.content.caption}</p>
+      <img className="post-image" src={post.content.postImage} alt={post.content.caption} onClick={handlePostClick} />
+      <p onClick={handlePostClick}>{post.content.caption}</p>
       <div className="post-stats">
         <div className="post-action" onClick={handleLike}>
           <FcLike color={isLiked ? "red" : "black"} />
@@ -79,6 +80,10 @@ function PostCard({ post, onPostUpdate }) {
         </div>
       </div>
       <p>Posted on: {new Date(post.timestamp).toLocaleString()}</p>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Post Detail">
+        <PostDetail postId={post._id} />
+        <button onClick={closeModal}>Close</button>
+      </Modal>
     </div>
   );
 }
