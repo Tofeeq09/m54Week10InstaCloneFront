@@ -24,7 +24,7 @@ const SignupPage = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await signup(userData);
-      setUser(response);
+      setUser(response.rest);
       navigate("/");
     } catch (error) {
       console.error(error);
