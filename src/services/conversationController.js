@@ -1,25 +1,23 @@
 // Path: src/services/conversationService.js
 
-import axios from "axios";
-
-const API_URL = "http://localhost:5001/api/conversations";
+import api from "../utils/api";
 
 export const startConversation = async (receiverId) => {
-  const response = await axios.post(`${API_URL}/start`, { receiverId });
+  const response = await api.post("/conversations", { receiverId });
   return response.data;
 };
 
 export const sendMessage = async (receiverId, content) => {
-  const response = await axios.post(`${API_URL}/send`, { receiverId, content });
+  const response = await api.post(`/conversations/${receiverId}/message`, { receiverId, content });
   return response.data;
 };
 
 export const getAllConversations = async () => {
-  const response = await axios.get(`${API_URL}/all`);
+  const response = await api.get("/conversations");
   return response.data;
 };
 
 export const getConversation = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await api.get(`/conversations/${id}`);
   return response.data;
 };
