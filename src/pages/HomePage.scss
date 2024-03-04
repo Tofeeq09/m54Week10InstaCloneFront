@@ -1,0 +1,20 @@
+// Path: src/pages/HomePage.scss
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  input[type="text"] {
+    display: block;
+    width: 80%;
+    padding: 0.5em;
+    margin-bottom: 5em;
+    font-size: 1em;
+    position: fixed;
+    top: 82px; // 61px is the height of the header
+    background-color: white;
+    z-index: 1;
+  }
+}

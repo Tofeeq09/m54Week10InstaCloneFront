@@ -1,4 +1,4 @@
-// Path: src/components/UserCard.jsx
+// Path: src/components/user/UserCard.jsx
 
 import "./UserCard.scss";
 import PropTypes from "prop-types";
