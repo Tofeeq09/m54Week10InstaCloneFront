@@ -20,13 +20,12 @@ function App() {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} setUser={setUser} />
 
       <Routes>
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/signup" element={<SignupPage setUser={setUser} />} />
         <Route path="/" element={HomePage} />
-
         <Route path="/profile/:id" element={ProfilePage} />
         <Route path="/post/:id" element={PostPage} />
         <Route path="/messages" element={ConversationPage} />
