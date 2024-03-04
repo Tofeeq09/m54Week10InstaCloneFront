@@ -9,6 +9,7 @@ const Navbar = () => {
         <Link to="/" className="navbar-logo">
           Y GRAM
         </Link>
+
         <div className="navbar-links">
           <Link to="/login" className="navbar-link">
             Login
