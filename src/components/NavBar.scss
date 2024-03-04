@@ -1,0 +1,37 @@
+// Path: src/components/NavBar.scss
+
+.navbar {
+  background-color: #fafafa;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 16px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1010px;
+    padding: 0 20px;
+    margin: 0 auto;
+
+    .navbar-logo {
+      color: #262626;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .navbar-links {
+      display: flex;
+
+      .navbar-link {
+        color: #262626;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+    }
+  }
+}
