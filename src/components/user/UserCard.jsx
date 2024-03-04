@@ -5,13 +5,15 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { getUser, followUser, unfollowUser } from "../../services/userService";
 
-const UserCard = ({ user, currentUser }) => {
+const UserCard = ({ user: initialUser, currentUser }) => {
+  const [user, setUser] = useState(initialUser);
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
       const userData = await getUser(user.handle);
-      setIsFollowing(userData.user.followingList.some((followingUser) => followingUser._id === currentUser._id));
+      setIsFollowing(userData.user.followersList.some((followerUser) => followerUser._id === currentUser._id));
+      setUser(userData.user); // Update the user data
     };
 
     checkFollowingStatus();
@@ -23,6 +25,8 @@ const UserCard = ({ user, currentUser }) => {
     } else {
       await followUser(user.handle);
     }
+    const updatedUserData = await getUser(user.handle); // Fetch the user data again
+    setUser(updatedUserData.user); // Update the user data
     setIsFollowing(!isFollowing);
   };
 
@@ -50,9 +54,7 @@ UserCard.propTypes = {
     followers: PropTypes.number,
     following: PropTypes.number,
   }).isRequired,
-  currentUser: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-  }).isRequired,
+  currentUser: PropTypes.object,
 };
 
 export default UserCard;

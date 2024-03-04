@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { getUsers } from "../services/userService";
 import UserCard from "../components/user/UserCard";
 import "./Explore.scss";
+import PropTypes from "prop-types";
 
-const Explore = () => {
+const Explore = ({ user: currentUser }) => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -27,10 +28,14 @@ const Explore = () => {
       <input type="text" placeholder="Search users..." value={searchQuery} onChange={handleSearchChange} />
       <h1>Explore</h1>
       {users.map((user) => (
-        <UserCard key={user._id} user={user} />
+        <UserCard key={user._id} user={user} currentUser={currentUser} />
       ))}
     </div>
   );
+};
+
+Explore.propTypes = {
+  user: PropTypes.object,
 };
 
 export default Explore;

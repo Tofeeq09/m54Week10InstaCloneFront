@@ -20,7 +20,6 @@ import Footer from "./components/Footer";
 function App() {
   const [user, setUser] = useState(null);
 
-  // Load user data from local storage when app starts
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) {
@@ -28,7 +27,6 @@ function App() {
     }
   }, []);
 
-  // Save user data to local storage whenever it changes
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -47,7 +45,7 @@ function App() {
 
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<Explore user={user} />} />
-        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/post/:id" element={<PostPage />} />
         <Route path="/messages" element={<ConversationPage />} />
         <Route path="/messages/:id" element={<ConversationPage />} />
