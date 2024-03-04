@@ -1,0 +1,26 @@
+// Path: src/pages/Explore.scss
+
+.explore-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3em;
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+  }
+
+  input[type="text"] {
+    display: block;
+    width: 80%;
+    padding: 0.5em;
+    margin-bottom: 5em;
+    font-size: 1em;
+    position: fixed;
+    top: 82px; // 61px is the height of the header
+    background-color: white;
+    z-index: 1;
+  }
+}

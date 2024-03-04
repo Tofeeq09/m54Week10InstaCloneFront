@@ -11,7 +11,9 @@ const LoginPage = ({ setUser }) => {
     emailOrHandle: "",
     password: "",
   });
+
   const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
