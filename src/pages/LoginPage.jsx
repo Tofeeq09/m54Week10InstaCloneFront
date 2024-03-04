@@ -1,15 +1,18 @@
 // Path: src/pages/LoginPage.jsx
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../services/userService";
 import "./LoginPage.scss";
+import PropTypes from "prop-types";
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }) => {
   const [userData, setUserData] = useState({
     emailOrHandle: "",
     password: "",
   });
-  const [loginMessage, setLoginMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -23,10 +26,11 @@ const LoginPage = () => {
         handle: !userData.emailOrHandle.includes("@") ? userData.emailOrHandle : undefined,
         password: userData.password,
       });
-      setLoginMessage(`Welcome, ${response.user.name}!`);
+      setUser(response.user);
+      navigate("/");
     } catch (error) {
       console.error(error);
-      setLoginMessage("Login failed. Please check your credentials and try again.");
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -52,10 +56,14 @@ const LoginPage = () => {
         <button className="form-button login-button" type="submit">
           Login
         </button>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
-      {loginMessage && <p className="login-message">{loginMessage}</p>}
     </div>
   );
+};
+
+LoginPage.propTypes = {
+  setUser: PropTypes.func.isRequired,
 };
 
 export default LoginPage;

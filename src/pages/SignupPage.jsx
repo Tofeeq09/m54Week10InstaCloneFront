@@ -1,17 +1,20 @@
 // Path: src/pages/SignupPage.jsx
 
-import { useState } from "react";
-import { signup } from "../services/userService";
 import "./SignupPage.scss";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../services/userService";
+import PropTypes from "prop-types";
 
-const SignupPage = () => {
+const SignupPage = ({ setUser }) => {
   const [userData, setUserData] = useState({
     name: "",
     handle: "",
     email: "",
     password: "",
   });
-  const [signupMessage, setSignupMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -21,10 +24,11 @@ const SignupPage = () => {
     e.preventDefault();
     try {
       const response = await signup(userData);
-      setSignupMessage(`Welcome, ${response.name}! Your account has been created.`);
+      setUser(response);
+      navigate("/");
     } catch (error) {
       console.error(error);
-      setSignupMessage("Signup failed. Please check your information and try again.");
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -66,10 +70,14 @@ const SignupPage = () => {
         <button className="form-button signup-button" type="submit">
           Signup
         </button>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
-      {signupMessage && <p className="signup-message">{signupMessage}</p>}
     </div>
   );
+};
+
+SignupPage.propTypes = {
+  setUser: PropTypes.func.isRequired,
 };
 
 export default SignupPage;
